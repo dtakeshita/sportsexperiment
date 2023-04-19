@@ -10,8 +10,9 @@ t = 0:dt:10;
 y = sin(2*pi*f_signal*t);
 
 % sample with f_sample
+f0 = 1/dt;
 dt_sample = 1/f_sample;
-N_sample = round(dt_sample/dt);
+N_sample = round(f0/f_sample);
 t_new = t(1:N_sample:end);
 y_new = y(1:N_sample:end);
 

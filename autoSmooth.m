@@ -1,5 +1,5 @@
 function [smoothedData, optCutFreq] = autoSmooth(data, hz)
-% data: raw data, hz: time frequency of input data
+% data: raw data, hz: sampling frequency of input data
     cutFreqMin = round(hz*7/100);
     cutFreqMax = round(hz*10/100);
     % "7" & "10" is arbitrary numbers
