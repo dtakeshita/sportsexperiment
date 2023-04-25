@@ -22,12 +22,14 @@ dyndt = (yn(3:end) - yn(1:end-2))/(2*dt);
 fs = 1/dt;
 [Py, fy] = pwelch(y, [], [], [], fs);
 [Pyn, fyn] = pwelch(yn, [], [], [], fs);
+[Pdyn, fdyn] = pwelch(dyndt, [], [], [], fs);
 
 % Plot the power spectral density
 figure;
 plot(fy, Py,'k');
 hold on
 plot(fyn,Pyn,'r')
+plot(fdyn,Pdyn,'b')
 xlabel('Frequency (Hz)');
 ylabel('Power/Frequency (dB/Hz)');
 title('Power Spectral Density Estimate');
