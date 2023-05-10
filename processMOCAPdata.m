@@ -1,6 +1,7 @@
 % Process MOCAP and EMG data
 clear; close all;
-load('./Data/hopping_230425saved.mat'); %pos_raw, pos_smoothed, EMG_raw, EMG_processed, grfz
+load('./Data/hopping2.mat'); %pos_raw, pos_smoothed, EMG_raw, EMG_processed, grfz
+%load('./Data/hopping_230427saved.mat');
 fs_EMG = 2000;%sampling frequency of EMG data
 fs_GRF = 2000;%sampling frequency of ground reaction force data
 fs_pos = 200;%sampling frequency of motion capture data
@@ -18,26 +19,26 @@ plot(t_GRF, grfz)
 subplot(2,1,2)
 plot(t_EMG, EMG_GML)
 
-% calc COM displacement & 
+% calc COM position from MOCAP data
 m = mean(grfz/9.8);
 [mass,com] = calc_com(pos_raw,m);
 grfz_interp = interp1(t_GRF, grfz, t_pos);
 comZ = com.all(3,:);
 plot(comZ, grfz_interp)
-% Calculate 
+% Calculate COM position from ground reaction force
 g = 9.8;
 v = cumsum(grfz/m-g)/fs_GRF;
 % plot(t_GRF,v)
 % extract one cycle
-t0 = 0.957; t1 = 1.155;t2 = 1.3795;
+t0 = 0.957; t1 = 1.155;t2 = 1.3795;t3 =1.575; 
 baseline = grfz(t_GRF> t0 & t_GRF< t1);
 base_mean = mean(baseline);
 base_std = std(baseline);
 grfz_new = grfz-base_mean;
 m = mean(grfz_new/9.8);
 v0 = -g*(t1-t0)/2;
-grfz_onecyc = grfz_new(t_GRF>t1 & t_GRF < t2);
-t_onecyc = t_GRF(t_GRF>t1 & t_GRF < t2);
+grfz_onecyc = grfz_new(t_GRF>t1 & t_GRF < t3);
+t_onecyc = t_GRF(t_GRF>t1 & t_GRF < t3);
 v = v0 + cumsum(grfz_onecyc/m-g)/fs_GRF;
 % COM from motion capture data
 comZ_onecyc = interp1(t_pos,comZ,t_onecyc );
@@ -47,7 +48,6 @@ tiledlayout('flow')
 nexttile
 plot(t_onecyc, v)
 h = cumsum(v)/fs_GRF;
-nexttile
 
 figure
 plot(t_onecyc, h)
