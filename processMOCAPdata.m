@@ -1,5 +1,6 @@
 % Process MOCAP and EMG data
 clear; close all;
+%load('./hopping2.mat');%データとスクリプトが同じフォルダにある場合
 load('./Data/hopping2.mat'); %pos_raw, pos_smoothed, EMG_raw, EMG_processed, grfz
 %load('./Data/hopping_230427saved.mat');
 fs_EMG = 2000;%sampling frequency of EMG data
